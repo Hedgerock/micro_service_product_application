@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+  <th:block th:fragment="mainView">
+      <div>
+        <h1>Page not found</h1>
+        <p th:text="${error}"></p>
+        <a th:href="@{catalogue/products/list}" th:text="${'Return to list'}"></a>
+      </div>
+  </th:block>
+</body>
+</html>

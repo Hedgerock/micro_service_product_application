@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+header, footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 2rem;
+    background: gray;
+
+    color: orange;
+}
+
+input {
+    border: 2px solid silver;
+    border-radius: .5rem;
+    padding: .3rem .5rem;
+
+    width: 450px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+}
+
+button, a {
+    border: 1px solid silver;
+    border-radius: 1rem;
+
+    padding: .5rem 1.5rem;
+
+    transition: background .2s, opacity .2s, border .2s;
+}
+
+h1 {
+    color: gray;
+    border: 1px solid silver;
+    cursor: default;
+
+    text-align: center;
+    padding: .5rem 0;
+
+    font-size: 3rem;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:active, a:active {
+    opacity: .7;
+}
+
+button:hover, a:hover {
+    background: gray;
+    color: white;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-radius: 1rem;
+}
+
+th, td {
+    text-align: center;
+    padding: .5rem 0;
+}
+
+td {
+    width: 100px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+}
+
+fieldset {
+    padding: 1rem;
+    border-radius: 1.5rem;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    margin: 1rem 0;
+
+    gap: 1rem;
+}
+
+legend {
+    width: 70%;
+    text-align: center;
+    font-size: 1.3rem;
+    padding: .5rem;
+    border-radius: 1rem;
+    border: 2px solid silver;
+}
+
+label span {
+    text-transform: capitalize;
+    font-size: 1.05rem;
+    font-weight: bold;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    padding: 1rem;
+    border: 3px solid silver;
+    border-radius: 1.5rem;
+
+    margin: 1.5rem;
+
+    height: 88.3lvh;
+}
+
+.product-table__value_title {
+    padding: .5rem;
+}
+
+.product-table__value_title a {
+    display: flex;
+
+}
+
+.notification-box {
+    position: fixed;
+
+    top: 10px;
+    left: 75%;
+
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    gap: .5rem;
+    align-items: flex-end;
+    padding: .5rem;
+
+    border: 2px solid silver;
+    border-radius: .5rem;
+}
+
+.search-form {
+    padding: 1rem;
+    border: 2px solid silver;
+
+    display: flex;
+
+    justify-content: center;
+    gap: 1.5rem;
+    align-items: flex-end;
+}
+
+.add-product-link,
+.backspace-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 3rem;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+}

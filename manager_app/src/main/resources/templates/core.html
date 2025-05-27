@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="${pageTitle}"></title>
+        <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    </head>
+
+    <body th:with="pathToPage=${'pages/' + pageFolderTitle + '_page/main_view'}">
+
+      <header>Header</header>
+
+      <div class="notification-box" th:if="${status != null}">
+          <span class="notification-box__value" th:text="${status}"></span>
+          <button class="notification-box__button" onclick="this.parentElement.remove()">Close</button>
+      </div>
+
+      <ul th:if="${errors != null}" th:each="error, stat: ${errors}">
+          <li th:text="${stat.index + 1} + ': ' + ${error}"></li>
+      </ul>
+
+      <main th:insert="~{${pathToPage}::mainView}"></main>
+
+      <footer>Footer</footer>
+
+    </body>
+</html>

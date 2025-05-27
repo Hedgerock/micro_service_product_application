@@ -1,0 +1,4 @@
+product:
+  services:
+    test-catalogue:
+      uri: http://localhost:54321

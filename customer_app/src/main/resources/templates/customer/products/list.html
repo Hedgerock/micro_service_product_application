@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products list</title>
+</head>
+<body>
+    <h1>Products</h1>
+
+    <a th:href="@{/customer/products/list}">All products</a>
+    <a th:href="@{/customer/products/favourites}">Favourites</a>
+
+    <form>
+        <label>
+            <span>Title:</span>
+            <input type="text" th:value="${title}" name="title"/>
+        </label>
+        <a th:if="${title != null}" th:href="@{/customer/products/list}" th:text="Clear"></a>
+        <button>find</button>
+    </form>
+
+    <ul th:each="product,stat:${products}">
+        <li>
+            <div>
+                <span th:text="${stat.index + 1}"></span>
+                <a
+                        th:href="@{/customer/products/list/{productId} (productId=${product.id})}"
+                        th:text="${product.title}"
+                >
+                </a>
+                <p th:text="${product.details}"></p>
+            </div>
+        </li>
+    </ul>
+</body>
+</html>

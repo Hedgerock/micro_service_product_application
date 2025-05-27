@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <th:block
+            th:fragment="productFavouriteStatus"
+            th:with="formClassName=${'product-favourite-selection-form'}"
+    >
+        <form
+                th:if="${!isFavourite}"
+                method="post"
+                th:action="@{/customer/products/list/{productId}/add-to-favourites (productId=${product.id})}"
+                th:class="${formClassName}"
+        >
+            <button>Add to favourites</button>
+        </form>
+        <form
+                th:if="${isFavourite}"
+                method="post"
+                th:action="@{/customer/products/list/{productId}/remove-from-favourites (productId=${product.id})}"
+                th:class="${formClassName}"
+        >
+            <button>Remove from favourites</button>
+        </form>
+    </th:block>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+  <th:block th:fragment="create_product_form">
+      <form
+              th:action="@{${productId == null ? 'create' : ('/catalogue/products/update/' + productId)}}"
+              th:method="post"
+              th:object="${newProduct}"
+      >
+        <fieldset>
+          <legend>Product credentials</legend>
+
+          <label>
+            <span>Enter your title</span>
+            <input th:type="text" th:field="*{title}"/>
+          </label>
+
+          <label>
+            <span>Enter your details</span>
+            <input th:type="text" th:field="*{details}"/>
+          </label>
+
+        </fieldset>
+
+        <button th:text="${productId == null ? 'Create new product' : 'Update product details'}"></button>
+      </form>
+  </th:block>
+</body>
+</html>

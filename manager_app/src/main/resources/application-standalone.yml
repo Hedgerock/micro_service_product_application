@@ -1,0 +1,33 @@
+product:
+  services:
+    catalogue:
+      uri: http://localhost:8081
+      username: hedgerock
+      password: 12345
+      registration-id: manager-app
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/manager
+    username: manager
+    password: manager
+  flyway:
+    schemas:
+      - public
+      - manager
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8084/realms/application_keycloak
+            user-name-attribute: preferred_username
+        registration:
+          manager-app:
+            provider: keycloak
+            client-id: manager-app
+            client-secret: pO6aT36o67iFvOydjKjh8zhPQ3Sy6lKZ
+            scope:
+              - openid
+              - view_catalogue
+              - edit_catalogue
+              - microprofile-jwt

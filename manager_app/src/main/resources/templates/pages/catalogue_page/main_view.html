@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <th:block th:fragment="mainView" th:with="absolutePagePath=${'pages/catalogue_page/products'}">
+        <h1>Products</h1>
+
+        <a
+                class="backspace-link"
+                th:if="${products == null}"
+                th:href="@{/catalogue/products/list}"
+                th:title="${'Return to list'}"
+                th:text="${'<'}"
+        >
+        </a>
+
+        <th:block th:with="productsListPath=${absolutePagePath + '/list'}" th:if="${products != null}">
+
+            <form th:action="@{/catalogue/products/list}" th:method="get" class="search-form">
+                <label>
+                    <span>title</span>
+                    <input type="text" name="title" th:value="${title}"/>
+                </label>
+
+                <a
+                        th:if="${title != null}"
+                        th:href="@{/catalogue/products/list}"
+                        th:text="${'Clear search params'}">
+                </a>
+                <button>Find by title</button>
+            </form>
+
+            <a
+                    class="add-product-link"
+                    th:href="@{/catalogue/products/create}"
+                    th:title="${'Add new product'}"
+                    th:text="${'+'}"
+            >
+            </a>
+
+            <table
+                    th:replace="~{${productsListPath}::productsList}">
+            </table>
+        </th:block>
+
+        <th:block th:with="productCreationPath=${absolutePagePath + '/create_product'}" th:if="${newProduct != null}">
+            <table
+                    th:replace="~{${productCreationPath}::create_product_form}">
+            </table>
+        </th:block>
+
+        <th:block th:with="currentProductPath=${absolutePagePath + '/current_product'}" th:if="${currentProduct != null}">
+            <th:block th:replace="~{${currentProductPath}::current_product}"></th:block>
+        </th:block>
+
+    </th:block>
+</body>
+</html>

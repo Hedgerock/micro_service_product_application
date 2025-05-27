@@ -1,0 +1,21 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8084/realms/application_keycloak
+  datasource:
+    url: jdbc:postgresql://localhost:5433/catalogue
+    username: catalogue
+    password: catalogue
+  flyway:
+    schemas:
+      - public
+      - catalogue
+  jpa:
+    show-sql: true
+server:
+  port: 8081
+logging:
+  level:
+    sql: info
