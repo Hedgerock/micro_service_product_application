@@ -6,10 +6,10 @@ product:
       password: 12345
       registration-id: manager-app
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5434/manager
-    username: manager
-    password: manager
+#  datasource:
+#    url: jdbc:postgresql://localhost:5434/manager
+#    username: manager
+#    password: manager
   flyway:
     schemas:
       - public

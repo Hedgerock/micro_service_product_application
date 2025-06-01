@@ -3,6 +3,9 @@ package com.hedgerock.feedback.rest_controllers;
 import com.hedgerock.feedback.entity.ProductReview;
 import com.hedgerock.feedback.rest_controllers.payload.NewProductReviewPayload;
 import com.hedgerock.feedback.service.product_review_option_service.ProductReviewService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
@@ -24,6 +27,9 @@ public class ProductReviewsRestController {
     private final ReactiveMongoTemplate reactiveMongoTemplate;
 
     @GetMapping("by-product-id/{productId:\\d+}")
+    @Operation(
+            security = @SecurityRequirement(name = "keycloak")
+    )
     public Flux<ProductReview> getProductReviewsByProductId(
 //            Mono<JwtAuthenticationToken> authenticationTokenMono,
             @PathVariable("productId") Long productId) {

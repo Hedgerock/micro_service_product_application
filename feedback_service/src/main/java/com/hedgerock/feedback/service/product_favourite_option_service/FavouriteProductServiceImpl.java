@@ -17,7 +17,8 @@ public class FavouriteProductServiceImpl implements FavoriteProductService {
 
     @Override
     public Mono<FavouriteProduct> addProductToFavourite(Long productId, String userId) {
-        return this.favouriteProductRepository.save(new FavouriteProduct(UUID.randomUUID(), productId, userId));
+        return this.favouriteProductRepository
+                .save(new FavouriteProduct(UUID.randomUUID(), productId, userId));
     }
 
     @Override

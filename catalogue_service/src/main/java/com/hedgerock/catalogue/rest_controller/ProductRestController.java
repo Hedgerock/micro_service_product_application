@@ -3,6 +3,11 @@ package com.hedgerock.catalogue.rest_controller;
 import com.hedgerock.catalogue.entity.Product;
 import com.hedgerock.catalogue.payload.UpdateProductPayload;
 import com.hedgerock.catalogue.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.headers.Header;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -39,12 +44,11 @@ public class ProductRestController {
     public Product findProduct(
         @ModelAttribute("product") Product product
     ) {
-
         return product;
     }
 
     @PatchMapping
-    public Product updateProduct(
+    public ResponseEntity<Void> updateProduct(
             @PathVariable("productId") long productId,
             @Valid @RequestBody UpdateProductPayload productPayload,
             BindingResult result
@@ -59,7 +63,8 @@ public class ProductRestController {
 
         }
 
-        return this.productService.updateCurrentProduct(productId, productPayload);
+        this.productService.updateCurrentProduct(productId, productPayload);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping

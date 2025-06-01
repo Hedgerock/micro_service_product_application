@@ -4,6 +4,7 @@ import com.hedgerock.manager.client.ProductRestClient;
 import com.hedgerock.manager.entities.Product;
 import com.hedgerock.manager.exceptions.BadRequestException;
 import com.hedgerock.manager.payload.UpdateProductPayload;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class ProductController extends BatyaController {
     }
 
     @GetMapping("/edit/{id:\\d+}")
-    public String createProduct(
+    public String updateProduct(
             @PathVariable Long id,
             @ModelAttribute("prevDetails") UpdateProductPayload productPayload,
             Model model,
@@ -49,19 +50,20 @@ public class ProductController extends BatyaController {
 
 
     @PostMapping("/update/{id:\\d+}")
-    public String initProduct(
+    public String updateCurrentProduct(
             @PathVariable Long id,
             @ModelAttribute("newProduct") UpdateProductPayload updateProductPayload,
             RedirectAttributes attributes
     ) {
         try {
-            Product product = this.productRestClient.updateProduct(id, updateProductPayload);
-            attributes.addFlashAttribute(REDIRECT_TITLE, String.format("%s has successfully update", product.title()));
+            this.productRestClient.updateProduct(id, updateProductPayload);
+            attributes.addFlashAttribute(REDIRECT_TITLE, "Current product has successfully updated");
 
-            return REDIRECT_TO_LIST;
+            return REDIRECT_TO_LIST + String.format("/%d", id);
         } catch (BadRequestException exception) {
             throw new BadRequestException(
-                    exception.getErrors(), String.format("redirect:/catalogue/products/edit/%d", id), updateProductPayload);
+                    exception.getErrors(),
+                    String.format("redirect:/catalogue/products/edit/%d", id), updateProductPayload);
         }
     }
 

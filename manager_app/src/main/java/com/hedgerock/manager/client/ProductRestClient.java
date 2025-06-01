@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ProductRestClient {
     List<Product> findAllProducts(String title);
-    Product createProduct(NewProductPayload productPayload);
+    Product createProduct(String title, String details);
 
     Optional<Product> findProduct(Long id);
 

@@ -8,6 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 public class SecurityBeans {
@@ -18,13 +21,24 @@ public class SecurityBeans {
         return http
                 .authorizeHttpRequests(requests ->
                         requests
-                                .requestMatchers(HttpMethod.POST, "/catalogue-api/products").hasAuthority("SCOPE_edit_catalogue")
-                                .requestMatchers(HttpMethod.PATCH, "/catalogue-api/products/{productId:\\d+}").hasAuthority("SCOPE_edit_catalogue")
-                                .requestMatchers(HttpMethod.DELETE, "/catalogue-api/products/{productId:\\d+}").hasAuthority("SCOPE_edit_catalogue")
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/catalogue-api/products")
+                                    .hasAuthority("SCOPE_edit_catalogue")
+                                .requestMatchers(HttpMethod.PATCH, "/catalogue-api/products/{productId:\\d+}")
+                                    .hasAuthority("SCOPE_edit_catalogue")
+                                .requestMatchers(HttpMethod.DELETE, "/catalogue-api/products/{productId:\\d+}")
+                                    .hasAuthority("SCOPE_edit_catalogue")
                                 .requestMatchers(HttpMethod.GET).hasAuthority("SCOPE_view_catalogue")
                                 .anyRequest().denyAll()
                 )
                 .csrf(CsrfConfigurer::disable)
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(List.of("http://localhost:8081"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(List.of("*"));
+                    return config;
+                }))
                 .sessionManagement(management ->
                         management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(server -> server.jwt(Customizer.withDefaults()))

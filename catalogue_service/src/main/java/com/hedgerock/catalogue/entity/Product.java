@@ -34,6 +34,7 @@ public class Product {
     @Size(max = 1000)
     private String details;
 
+
     public UpdateProductPayload getUpdatePayload() {
         return new UpdateProductPayload(this.title, this.details);
     }

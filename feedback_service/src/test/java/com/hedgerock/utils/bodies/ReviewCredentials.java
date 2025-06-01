@@ -13,19 +13,22 @@ import java.util.UUID;
 
 @Slf4j
 public class ReviewCredentials {
-    private static final Long PRODUCT_ID = 1L;
-    private static final Integer RATING_VALUE = 5;
-    private static final String REVIEW_VALUE = "Test of creation review";
+    public static final Long PRODUCT_ID = 1L;
+    public static final Integer RATING_VALUE = 5;
+    public static final String REVIEW_VALUE = "Test of creation review";
+    public static final String USER_ID = "2ff12edc-31ec-43b1-8772-01954ffcb808";
+
+    public static final ProductReview FIRST_PRODUCT_REVIEW = new ProductReview(
+            UUID.randomUUID(), PRODUCT_ID, 1, "Test review 1", "test-user-1");
+
+    public static final ProductReview SECOND_PRODUCT_REVIEW = new ProductReview(
+            UUID.randomUUID(), PRODUCT_ID, 3, "Test review 2", "test-user-2");
+
+    public static final ProductReview THIRD_PRODUCT_REVIEW = new ProductReview(
+            UUID.randomUUID(), PRODUCT_ID, 5, "Test review 3", "test-user-3");
 
     public static List<ProductReview> getReviews() {
-        return List.of(
-                new ProductReview(
-                        UUID.fromString("eb02e46a-760e-48aa-9393-01997e4e7e21"), PRODUCT_ID, 1, "Test review 1", "test-user-1"),
-                new ProductReview(
-                        UUID.fromString("54357d56-7c57-4f80-a065-6ec674df6de7"), PRODUCT_ID, 3, "Test review 2", "test-user-2"),
-                new ProductReview(
-                        UUID.fromString("2f0f7cc8-b72b-44c7-99b4-c0b2f8c9e0f0"), PRODUCT_ID, 5, "Test review 3", "test-user-3")
-        );
+        return List.of(FIRST_PRODUCT_REVIEW, SECOND_PRODUCT_REVIEW, THIRD_PRODUCT_REVIEW);
     }
 
     public static Mono<ClientRequest> initClientRequest(ClientRequest clientRequest) {
@@ -106,28 +109,28 @@ public class ReviewCredentials {
                 """
                       [
                         {
-                            "id": "eb02e46a-760e-48aa-9393-01997e4e7e21",
+                            "id": "%s",
                             "productId": 1,
                             "rating": 1,
                             "review": "Test review 1",
                             "userId": "test-user-1"
                         },
                         {
-                             "id": "54357d56-7c57-4f80-a065-6ec674df6de7",
+                             "id": "%s",
                              "productId": 1,
                              "rating": 3,
                              "review": "Test review 2",
                              "userId": "test-user-2"
                         },
                         {
-                              "id": "2f0f7cc8-b72b-44c7-99b4-c0b2f8c9e0f0",
+                              "id": "%s",
                               "productId": 1,
                               "rating": 5,
                               "review": "Test review 3",
                               "userId": "test-user-3"
                         }
                       ]
-                 """
+                 """.formatted(FIRST_PRODUCT_REVIEW.getId(), SECOND_PRODUCT_REVIEW.getId(), THIRD_PRODUCT_REVIEW.getId())
         );
     }
 

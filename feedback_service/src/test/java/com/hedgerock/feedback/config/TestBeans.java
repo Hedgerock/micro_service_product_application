@@ -13,7 +13,9 @@ public class TestBeans {
     @Bean(initMethod = "start", destroyMethod = "stop")
     @ServiceConnection
     public MongoDBContainer mongoDBContainer() {
-        return new MongoDBContainer("mongo:8");
+        try(MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8").withReuse(false)) {
+            return mongoDBContainer;
+        }
     }
 
     @Bean

@@ -1,15 +1,17 @@
 package com.hedgerock.manager.client;
 
+import com.hedgerock.manager.controller.payload.NewProductPayload;
 import com.hedgerock.manager.entities.Product;
 import com.hedgerock.manager.exceptions.BadRequestException;
 import com.hedgerock.manager.exceptions.ProductNotFoundException;
-import com.hedgerock.manager.payload.NewProductPayload;
 import com.hedgerock.manager.payload.UpdateProductPayload;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 public class ProductRestClientImpl implements ProductRestClient {
     private static final ParameterizedTypeReference<List<Product>> PRODUCTS_TYPE_REFERENCE = new ParameterizedTypeReference<>() {};
     private static final String DEFAULT_API_PATH = "/catalogue-api/products";
@@ -34,18 +37,22 @@ public class ProductRestClientImpl implements ProductRestClient {
     }
 
     @Override
-    public Product createProduct(NewProductPayload productPayload) {
+    public Product createProduct(String title, String details) {
         try {
+            log.info("I am inside of creation rest client: {} and {}", title, details);
             return this.restClient
                     .post()
                     .uri(DEFAULT_API_PATH)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(productPayload)
+                    .body(new NewProductPayload(title, details))
                     .retrieve()
                     .body(Product.class);
         } catch (HttpClientErrorException.BadRequest exception) {
             ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
             throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
+        } catch (ResourceAccessException exception) {
+            log.error(exception.getMessage(), exception);
+            throw new RuntimeException();
         }
     }
 

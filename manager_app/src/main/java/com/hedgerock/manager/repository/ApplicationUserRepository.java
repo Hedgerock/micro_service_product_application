@@ -1,10 +1,9 @@
 package com.hedgerock.manager.repository;
 
 import com.hedgerock.manager.entities.ApplicationUser;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface ApplicationUserRepository extends CrudRepository<ApplicationUser, Long> {
+public interface ApplicationUserRepository {
     Optional<ApplicationUser> findByUsername(String username);
 }

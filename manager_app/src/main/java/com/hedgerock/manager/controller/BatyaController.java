@@ -16,9 +16,9 @@ public class BatyaController {
     protected static final String REDIRECT_TITLE = "status";
     protected static final String REDIRECT_TO_LIST = "redirect:/catalogue/products/list";
 
-    @ModelAttribute
-    public void addAttributes(Model model) {
-        model.addAttribute("pageFolderTitle", "catalogue");
+    @ModelAttribute("pageFolderTitle")
+    public String setPageFolderTitle() {
+        return "catalogue";
     }
 
     protected void setPageTitle(Model model, String value) {

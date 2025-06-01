@@ -1,0 +1,84 @@
+= REST API of feedback service
+
+:toc:
+:toc-placement: left
+
+== Products feedbacks
+
+=== Find reviews
+
+.Request
+include::{snippets}/feedback/product_review/find_reviews_by_id/http-request.adoc[]
+
+.Response
+include::{snippets}/feedback/product_review/find_reviews_by_id/http-response.adoc[]
+
+.Response fields
+include::{snippets}/feedback/product_review/find_reviews_by_id/response-fields.adoc[]
+
+=== Create review
+
+.Request
+include::{snippets}/feedback/product_review/create_product_review/http-request.adoc[]
+
+.Request fields
+include::{snippets}/feedback/product_review/create_product_review/request-fields.adoc[]
+
+
+.Response
+include::{snippets}/feedback/product_review/create_product_review/http-response.adoc[]
+
+.Response fields
+include::{snippets}/feedback/product_review/create_product_review/response-fields.adoc[]
+
+
+:toc:
+== Favourite products
+
+=== GET favourite products
+
+.Request
+include::{snippets}/feedback/product_review/get_favourite_products/http-request.adoc[]
+
+.Response
+include::{snippets}/feedback/product_review/get_favourite_products/http-response.adoc[]
+
+.Response fields
+include::{snippets}/feedback/product_review/get_favourite_products/response-fields.adoc[]
+
+=== GET current favourite product
+
+.Request
+include::{snippets}/feedback/product_review/find_favourite_product_by_product_id/http-request.adoc[]
+
+.Response
+include::{snippets}/feedback/product_review/find_favourite_product_by_product_id/http-response.adoc[]
+
+.Response fields
+include::{snippets}/feedback/product_review/find_favourite_product_by_product_id/response-fields.adoc[]
+
+=== Add product to favourite
+.Request
+include::{snippets}/feedback/product_review/add_product_to_favourite/http-request.adoc[]
+
+.Request fields
+include::{snippets}/feedback/product_review/add_product_to_favourite/request-fields.adoc[]
+
+.Response
+include::{snippets}/feedback/product_review/add_product_to_favourite/http-response.adoc[]
+
+.Response fields
+include::{snippets}/feedback/product_review/add_product_to_favourite/response-fields.adoc[]
+
+=== Remove product from favourite
+.Request
+include::{snippets}/feedback/product_review/remove_product_from_favourites/http-request.adoc[]
+----
+Success status
+
+{
+    Status:204 - No content
+}
+----
+
+include::{snippets}/feedback/product_review/remove_product_from_favourites/http-response.adoc[]

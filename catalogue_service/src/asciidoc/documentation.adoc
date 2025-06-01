@@ -1,0 +1,68 @@
+= REST API catalogue
+
+:toc: right
+
+== REST API of products
+
+=== GET products
+.Path for request
+include::{snippets}/catalogue/products/find_products_collection/curl-request.adoc[]
+
+.Response body
+include::{snippets}/catalogue/products/find_products_collection/response-body.adoc[]
+
+.Response fields
+include::{snippets}/catalogue/products/find_products_collection/response-fields.adoc[]
+
+=== GET product
+.Path for request
+include::{snippets}/catalogue/products/find_all/curl-request.adoc[]
+
+.Response body
+include::{snippets}/catalogue/products/find_all/response-body.adoc[]
+
+.Response fields
+include::{snippets}/catalogue/products/find_all/response-fields.adoc[]
+
+=== POST product (create)
+
+.Path for request
+include::{snippets}/catalogue/products/create_products/curl-request.adoc[]
+
+.Request body
+include::{snippets}/catalogue/products/create_products/request-body.adoc[]
+
+.Request fields
+include::{snippets}/catalogue/products/create_products/request-fields.adoc[]
+
+.Response body
+include::{snippets}/catalogue/products/create_products/response-body.adoc[]
+
+.Response fields
+include::{snippets}/catalogue/products/create_products/response-fields.adoc[]
+
+=== PATCH product (update)
+.Path for request
+include::{snippets}/catalogue/products/update_product/curl-request.adoc[]
+
+.Request body
+include::{snippets}/catalogue/products/update_product/request-body.adoc[]
+
+.Request fields
+include::{snippets}/catalogue/products/update_product/request-fields.adoc[]
+
+.Response body
+----
+Status code 204
+{ No content }
+----
+
+=== DELETE product
+.Path for request
+include::{snippets}/catalogue/products/delete_product/curl-request.adoc[]
+
+.Response body
+----
+Status code 200
+{ No content }
+----
