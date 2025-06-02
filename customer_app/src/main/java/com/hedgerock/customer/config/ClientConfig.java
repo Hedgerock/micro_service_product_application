@@ -3,10 +3,16 @@ package com.hedgerock.customer.config;
 import com.hedgerock.customer.client.WebFavouriteProductsClient;
 import com.hedgerock.customer.client.WebProductReviewsClient;
 import com.hedgerock.customer.client.WebProductsClient;
+import de.codecentric.boot.admin.client.config.ClientProperties;
+import de.codecentric.boot.admin.client.registration.ReactiveRegistrationClient;
+import de.codecentric.boot.admin.client.registration.RegistrationClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
 import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
@@ -55,6 +61,27 @@ public class ClientConfig {
             WebClient.Builder builder
     ) {
         return new WebProductReviewsClient(builder.baseUrl(baseUrl).build());
+    }
+
+    @Bean
+    @ConditionalOnProperty(value = "spring.boot.admin.client.enabled", havingValue = "true")
+    public RegistrationClient registrationClient(
+            ClientProperties clientProperties,
+            ReactiveClientRegistrationRepository registrationRepository,
+            ReactiveOAuth2AuthorizedClientService authorizedClientService
+    ) {
+        var currentFilter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(
+                new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(registrationRepository, authorizedClientService)
+        );
+
+        currentFilter.setDefaultClientRegistrationId("admin-keycloak");
+
+        return new ReactiveRegistrationClient(
+                WebClient.builder()
+                        .filter(currentFilter)
+                        .build(),
+                clientProperties.getReadTimeout()
+        );
     }
 
 }

@@ -1,9 +1,28 @@
 spring:
+  boot:
+    admin:
+      client:
+        enabled: true
+        instance:
+          name: catalogue-service
+          service-host-type: ip
+        url: http://localhost:8086
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8084/realms/application_keycloak
+      client:
+        registration:
+          keycloak:
+            client-id: catalogue-service-metrics-client
+            client-secret: 8XCUmMVaxJJzABCP1ihZprOna2BjPHrh
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics_server
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8084/realms/application_keycloak
   datasource:
     url: jdbc:postgresql://localhost:5433/catalogue
     username: catalogue
@@ -26,3 +45,14 @@ springdoc:
       use-pkce-with-authorization-code-grant: true
 keycloak:
   uri: http://localhost:8084
+
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'

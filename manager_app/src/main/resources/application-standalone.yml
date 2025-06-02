@@ -10,17 +10,30 @@ spring:
 #    url: jdbc:postgresql://localhost:5434/manager
 #    username: manager
 #    password: manager
+  boot:
+    admin:
+      client:
+        enabled: true
+        instance:
+          name: manager-application
+          service-host-type: ip
+        url: http://localhost:8086
   flyway:
     schemas:
       - public
       - manager
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8084/realms/application_keycloak
       client:
         provider:
           keycloak:
             issuer-uri: http://localhost:8084/realms/application_keycloak
             user-name-attribute: preferred_username
+          admin-keycloak:
+            issuer-uri: http://localhost:8084/realms/application_keycloak
         registration:
           manager-app:
             provider: keycloak
@@ -31,3 +44,20 @@ spring:
               - view_catalogue
               - edit_catalogue
               - microprofile-jwt
+          manager-keycloak:
+            provider: keycloak
+            client-id: manager-application-metrics-client
+            client-secret: 8JLz1WqrlpXcB3fTqfZsm0F05j45SmnY
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics_server
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'

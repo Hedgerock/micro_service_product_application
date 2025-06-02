@@ -8,8 +8,19 @@ product:
 server:
   port: 8083
 spring:
+  boot:
+    admin:
+      client:
+        enabled: true
+        instance:
+          name: customer-application
+          service-host-type: ip
+        url: http://localhost:8086
   security:
     oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8084/realms/application_keycloak
       client:
         provider:
           keycloak:
@@ -22,3 +33,20 @@ spring:
             scope:
               - openid
               - view_catalogue
+          admin-keycloak:
+            provider: keycloak
+            client-id: customer-application-metrics-client
+            client-secret: FazhMBqws4nnslFM9HkTkD7TvanhoO5l
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics_server
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'

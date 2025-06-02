@@ -19,6 +19,7 @@ public class SecurityBeans {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         return http
+                .oauth2Client(Customizer.withDefaults())
                 .authorizeHttpRequests(requests ->
                         requests
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
@@ -28,6 +29,7 @@ public class SecurityBeans {
                                     .hasAuthority("SCOPE_edit_catalogue")
                                 .requestMatchers(HttpMethod.DELETE, "/catalogue-api/products/{productId:\\d+}")
                                     .hasAuthority("SCOPE_edit_catalogue")
+                                .requestMatchers("/actuator/**").hasAuthority("SCOPE_metrics")
                                 .requestMatchers(HttpMethod.GET).hasAuthority("SCOPE_view_catalogue")
                                 .anyRequest().denyAll()
                 )

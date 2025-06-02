@@ -13,6 +13,7 @@
         <module>catalogue_service</module>
         <module>customer_app</module>
         <module>feedback_service</module>
+        <module>admin_server</module>
     </modules>
 
     <properties>

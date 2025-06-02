@@ -2,6 +2,14 @@ server:
   port: 8085
 
 spring:
+  boot:
+    admin:
+      client:
+        enabled: true
+        instance:
+          name: feedback-service
+          service-host-type: ip
+        url: http://localhost:8086
   data:
     mongodb:
       uri: mongodb://localhost:27017/feedback
@@ -10,6 +18,17 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8084/realms/application_keycloak
+      client:
+        registration:
+          keycloak:
+            client-id: feedback-service-metrics-client
+            client-secret: hLIBX23hbUEWucunUvO7QoaQNgxxsPbc
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics_server
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8084/realms/application_keycloak
 springdoc:
   swagger-ui:
     oauth:
@@ -17,3 +36,13 @@ springdoc:
       use-pkce-with-authorization-code-grant: true
 keycloak:
   uri: http://localhost:8084
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
