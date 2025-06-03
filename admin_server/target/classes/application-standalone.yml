@@ -1,0 +1,35 @@
+server:
+  port: 8086
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
+            client-id: admin-service
+            client-secret: AxN9Cdwb0eDH4R3Ndazo7mwRnX7aOsAR
+          login:
+            provider: keycloak
+            scope:
+              - openid
+              - metrics
+            client-id: admin-service
+            client-secret: AxN9Cdwb0eDH4R3Ndazo7mwRnX7aOsAR
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus

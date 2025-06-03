@@ -1,0 +1,3 @@
+com\hedgerock\admin\config\SecurityBeans.class
+com\hedgerock\admin\web\client\OauthHttpHeadersProvider.class
+com\hedgerock\admin\AdminApplication.class
