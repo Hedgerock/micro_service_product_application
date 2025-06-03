@@ -3,6 +3,7 @@ package com.hedgerock.customer.config;
 import jakarta.annotation.Priority;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -19,8 +20,9 @@ public class SecurityConfig {
     public SecurityWebFilterChain adminSecurityFilterChain(ServerHttpSecurity http) {
         return http
                 .securityMatcher(pathMatchers("/actuator/**"))
-                .authorizeExchange(customizer -> customizer.pathMatchers("/actuator/**")
-                        .hasAuthority("SCOPE_metrics"))
+                .authorizeExchange(customizer -> customizer
+                        .pathMatchers("/instances", "/instances/*").hasAuthority("SCOPE_metrics_server")
+                        .pathMatchers("/actuator/**").hasAuthority("SCOPE_metrics"))
                 .oauth2ResourceServer(customizer -> customizer.jwt(Customizer.withDefaults()))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
