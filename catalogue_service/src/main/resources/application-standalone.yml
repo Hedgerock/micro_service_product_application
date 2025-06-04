@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: application_catalogue_service
   boot:
     admin:
       client:
@@ -56,3 +58,9 @@ management:
     web:
       exposure:
         include: '*'
+  zipkin:
+    tracing:
+      endpoint: http://192.168.0.105:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0

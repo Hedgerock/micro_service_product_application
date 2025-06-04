@@ -2,6 +2,8 @@ server:
   port: 8086
 
 spring:
+  application:
+    name: application_admin_server
   security:
     oauth2:
       resourceserver:
@@ -33,3 +35,9 @@ management:
         include:
           - health
           - prometheus
+  zipkin:
+    tracing:
+      endpoint: http://192.168.0.105:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
