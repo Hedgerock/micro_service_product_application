@@ -11,7 +11,7 @@ spring:
 #    username: manager
 #    password: manager
   application:
-    name: application_manager-app
+    name: application-manager-app
   boot:
     admin:
       client:
@@ -69,3 +69,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

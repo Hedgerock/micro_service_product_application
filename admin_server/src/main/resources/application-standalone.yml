@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: application_admin_server
+    name: application-admin-server
   security:
     oauth2:
       resourceserver:

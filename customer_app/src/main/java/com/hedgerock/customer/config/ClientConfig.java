@@ -9,6 +9,8 @@ import de.codecentric.boot.admin.client.registration.RegistrationClient;
 import io.micrometer.observation.ObservationRegistry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -23,6 +25,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class ClientConfig {
     @Bean
+    @LoadBalanced
     @Scope("prototype")
     public WebClient.Builder applicationServicesClientBuilder(
             ReactiveClientRegistrationRepository reactiveClientRegistrationRepository,
@@ -57,7 +60,9 @@ public class ClientConfig {
             @Value("${product.services.feedback.uri:http://localhost:8085}") String baseUrl,
             WebClient.Builder builder
     ) {
-        return new WebFavouriteProductsClient(builder.baseUrl(baseUrl).build());
+        return new WebFavouriteProductsClient(builder
+                .baseUrl(baseUrl)
+                .build());
     }
 
     @Bean
@@ -65,7 +70,9 @@ public class ClientConfig {
             @Value("${product.services.feedback.uri:http://localhost:8085}") String baseUrl,
             WebClient.Builder builder
     ) {
-        return new WebProductReviewsClient(builder.baseUrl(baseUrl).build());
+        return new WebProductReviewsClient(builder
+                .baseUrl(baseUrl)
+                .build());
     }
 
     @Bean

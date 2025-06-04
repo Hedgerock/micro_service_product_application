@@ -14,6 +14,7 @@
         <module>customer_app</module>
         <module>feedback_service</module>
         <module>admin_server</module>
+        <module>eureka_server</module>
     </modules>
 
     <properties>
@@ -22,6 +23,7 @@
         <project.build.sorceEncoding>UTF-8</project.build.sorceEncoding>
         <java.version>17</java.version>
         <spring-boot.version>3.4.5</spring-boot.version>
+        <spring-cloud.version>2024.0.1</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -30,6 +32,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>

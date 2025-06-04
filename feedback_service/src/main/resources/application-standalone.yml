@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: application_feedback_service
+    name: application-feedback-service
   boot:
     admin:
       client:

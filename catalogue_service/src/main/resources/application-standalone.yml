@@ -1,6 +1,6 @@
 spring:
   application:
-    name: application_catalogue_service
+    name: application-catalogue-service
   boot:
     admin:
       client:

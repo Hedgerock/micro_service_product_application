@@ -1,0 +1,80 @@
+product:
+  services:
+    catalogue:
+      uri: lb://application-catalogue-service
+      username: hedgerock
+      password: 12345
+      registration-id: manager-app
+spring:
+  #  datasource:
+  #    url: jdbc:postgresql://localhost:5434/manager
+  #    username: manager
+  #    password: manager
+  application:
+    name: application-manager-app
+  boot:
+    admin:
+      client:
+        enabled: false
+  flyway:
+    schemas:
+      - public
+      - manager
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+            user-name-attribute: preferred_username
+          admin-keycloak:
+            issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+        registration:
+          manager-app:
+            provider: keycloak
+            client-id: manager-app
+            client-secret: pO6aT36o67iFvOydjKjh8zhPQ3Sy6lKZ
+            scope:
+              - openid
+              - view_catalogue
+              - edit_catalogue
+              - microprofile-jwt
+          manager-keycloak:
+            provider: keycloak
+            client-id: manager-application-metrics-client
+            client-secret: 8JLz1WqrlpXcB3fTqfZsm0F05j45SmnY
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics_server
+          discovery:
+            provider: keycloak
+            client-id: manager-application-metrics-client
+            client-secret: 8JLz1WqrlpXcB3fTqfZsm0F05j45SmnY
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  zipkin:
+    tracing:
+      endpoint: http://192.168.0.105:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
