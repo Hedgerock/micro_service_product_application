@@ -1,0 +1,65 @@
+product:
+  services:
+    catalogue:
+      uri: lb://application-catalogue-service
+    feedback:
+      uri: lb://application-feedback-service
+
+spring:
+  boot:
+    admin:
+      client:
+        enabled: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            client-id: customer-app
+            client-secret: AD3eiwLcuazWIBvEK1Wl1Q12dntynsj6
+            scope:
+              - openid
+              - view_catalogue
+          admin-keycloak:
+            provider: keycloak
+            client-id: customer-application-metrics-client
+            client-secret: FazhMBqws4nnslFM9HkTkD7TvanhoO5l
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics_server
+          discovery:
+            provider: keycloak
+            client-id: customer-application-metrics-client
+            client-secret: FazhMBqws4nnslFM9HkTkD7TvanhoO5l
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  zipkin:
+    tracing:
+      endpoint: http://192.168.0.105:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

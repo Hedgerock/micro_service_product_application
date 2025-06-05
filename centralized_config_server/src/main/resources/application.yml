@@ -1,0 +1,7 @@
+spring:
+  security:
+    user:
+      name: hedgerock
+      password: 12345
+      roles:
+        - ADMIN

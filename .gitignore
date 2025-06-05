@@ -5,6 +5,7 @@ catalogue_service/target
 feedback_service/target
 customer_app/target
 eureka_server/target
+centralized_config_server/target
 
 customer_app.iml
 demo.iml

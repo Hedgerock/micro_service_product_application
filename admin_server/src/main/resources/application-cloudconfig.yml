@@ -1,0 +1,10 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: application-admin-server
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      uri: http://hedgerock:12345@localhost:8888

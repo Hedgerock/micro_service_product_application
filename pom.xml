@@ -15,6 +15,7 @@
         <module>feedback_service</module>
         <module>admin_server</module>
         <module>eureka_server</module>
+        <module>centralized_config_server</module>
     </modules>
 
     <properties>

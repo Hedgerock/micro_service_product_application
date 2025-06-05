@@ -1,0 +1,52 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.0.105:8084/realms/application_keycloak
+            user-name-attribute: preferred_username
+        registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
+            client-id: admin-service
+            client-secret: AxN9Cdwb0eDH4R3Ndazo7mwRnX7aOsAR
+          discovery:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: admin-service
+            client-secret: AxN9Cdwb0eDH4R3Ndazo7mwRnX7aOsAR
+            scope:
+              - discovery
+          login:
+            provider: keycloak
+            scope:
+              - openid
+              - metrics
+            client-id: admin-service
+            client-secret: AxN9Cdwb0eDH4R3Ndazo7mwRnX7aOsAR
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+  zipkin:
+    tracing:
+      endpoint: http://192.168.0.105:9411/api/v2/spans
+  tracing:
+    sampling:
+      probability: 1.0
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.0.105:8761/eureka/
+    register-with-eureka: false
+  instance:
+    prefer-ip-address: true

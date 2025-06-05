@@ -1,0 +1,10 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: application-customer-app
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      uri: http://hedgerock:12345@localhost:8888

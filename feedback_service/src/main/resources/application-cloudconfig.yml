@@ -1,0 +1,10 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: application-feedback-service
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      uri: http://hedgerock:12345@localhost:8888

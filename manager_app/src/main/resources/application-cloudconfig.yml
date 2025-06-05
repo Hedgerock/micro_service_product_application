@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: application-manager-app
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      uri: http://hedgerock:12345@localhost:8888
