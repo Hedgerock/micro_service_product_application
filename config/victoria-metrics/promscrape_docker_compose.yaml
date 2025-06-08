@@ -1,7 +1,7 @@
 scrape_configs:
   - job_name: application_admin_service
     static_configs:
-      - targets: ["http://192.168.0.105:8086"]
+      - targets: ["http://admin-server:8086"]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics
@@ -13,7 +13,7 @@ scrape_configs:
         grant_type: client_credentials
   - job_name: application_catalogue_service
     static_configs:
-      - targets: ["http://192.168.0.105:8081"]
+      - targets: ["http://catalogue-service:8081"]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics
@@ -25,7 +25,7 @@ scrape_configs:
         grant_type: client_credentials
   - job_name: application_customer_module
     static_configs:
-      - targets: ["http://192.168.0.105:8083"]
+      - targets: ["http://customer-app:8083"]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics
@@ -37,7 +37,7 @@ scrape_configs:
         grant_type: client_credentials
   - job_name: application_feedback_module
     static_configs:
-      - targets: ["http://192.168.0.105:8085"]
+      - targets: ["http://feedback-service:8085"]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics
@@ -49,7 +49,7 @@ scrape_configs:
         grant_type: client_credentials
   - job_name: application_manager_module
     static_configs:
-      - targets: ["http://192.168.0.105:8080"]
+      - targets: ["http://manager-app:8080"]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics
@@ -61,7 +61,7 @@ scrape_configs:
         grant_type: client_credentials
   - job_name: application_centralized-configuration_module
     static_configs:
-      - targets: [ "http://192.168.0.105:8888" ]
+      - targets: [ "http://config-server:8888" ]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics
@@ -73,7 +73,7 @@ scrape_configs:
         grant_type: client_credentials
   - job_name: application_cloud-netflix-eureka_module
     static_configs:
-      - targets: [ "http://192.168.0.105:8762" ]
+      - targets: [ "http://eureka-server:8762" ]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics
@@ -85,7 +85,7 @@ scrape_configs:
         grant_type: client_credentials
   - job_name: application_api-gateway_module
     static_configs:
-      - targets: [ "http://192.168.0.105:8087" ]
+      - targets: [ "http://api-gateway:8087" ]
     metrics_path: /actuator/prometheus
     oauth2:
       client_id: victoria-metrics

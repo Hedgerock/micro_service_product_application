@@ -4,6 +4,7 @@ import org.mockito.Mockito;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.testcontainers.containers.MongoDBContainer;
 
@@ -16,6 +17,11 @@ public class TestBeans {
         try(MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8").withReuse(false)) {
             return mongoDBContainer;
         }
+    }
+
+    @Bean
+    public ReactiveClientRegistrationRepository reactiveClientRegistrationRepository() {
+        return Mockito.mock();
     }
 
     @Bean

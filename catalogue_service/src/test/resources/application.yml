@@ -1,5 +1,15 @@
 spring:
-  datasource:
-    url: jdbc:tc:postgresql:17:///application?TC_DAEMON=true
-    username: user
-    password: user
+    boot:
+      admin:
+        client:
+          enabled: false
+    cloud:
+      config:
+        enabled: false
+    datasource:
+      url: jdbc:tc:postgresql:17:///application?TC_DAEMON=true
+      username: user
+      password: user
+eureka:
+  client:
+    enabled: false

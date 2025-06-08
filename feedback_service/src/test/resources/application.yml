@@ -9,6 +9,3 @@ spring:
 eureka:
   client:
     enabled: false
-test:
-  host:
-    url: http://localhost:54321

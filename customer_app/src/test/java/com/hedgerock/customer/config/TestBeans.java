@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.server.ServerOAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
@@ -21,6 +22,11 @@ public class TestBeans {
     }
     @Bean
     public ServerOAuth2AuthorizedClientRepository serverOAuth2AuthorizedClientRepository() {
+        return Mockito.mock();
+    }
+
+    @Bean
+    public ReactiveJwtDecoder jwtDecoder() {
         return Mockito.mock();
     }
 

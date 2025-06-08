@@ -9,6 +9,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.client.RestClient;
 
 import static org.mockito.Mockito.mock;
@@ -23,6 +24,11 @@ public class TestBeans {
 
     @Bean
     public OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository() {
+        return mock();
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
         return mock();
     }
 

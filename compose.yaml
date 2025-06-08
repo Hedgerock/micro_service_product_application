@@ -1,0 +1,189 @@
+name: application
+
+services:
+  keycloak:
+    container_name: application_keycloak-server_container
+    image: quay.io/keycloak/keycloak:26.2.4
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - './config/keycloak/import:/opt/keycloak/data/import'
+    ports:
+      - '8084:8080'
+    command: start-dev --import-realm
+  tempo:
+    container_name: application_grafana-tempo_container
+    image: grafana/tempo:2.3.1
+    command: -config.file=/etc/tempo.yaml
+    volumes:
+      - './config/tempo/tempo.yaml:/etc/tempo.yaml'
+    ports:
+      - '3200:3200'
+      - '9095:9095'
+      - '4317:4317'
+      - '4318:4318'
+      - '9411:9411'
+      - '14268:14268'
+  loki:
+    container_name: application-grafana-loki_container
+    image: grafana/loki:3.5.0
+    ports:
+      - '3100:3100'
+  grafana:
+    container_name: application-grafana_container
+    image: grafana/grafana:12.0.1
+    volumes:
+      - './data/grafana:/var/lib/grafana'
+    user: '1000'
+  victoria-metrics:
+    container_name: application_victoria-metrics_container
+    image: victoriametrics/victoria-metrics:v1.118.0
+    command: -promscrape.config=/promscrape.yaml
+    volumes:
+      - './config/victoria-metrics/promscrape_docker_compose.yaml:/promscrape.yaml'
+    ports:
+      - '8428:8428'
+  catalogue-db:
+    container_name: application_catalogue-db_container
+    image: postgres:17
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: catalogue
+      POSTGRES_PASSWORD: catalogue
+      POSTGRES_DB: catalogue
+  feedback-db:
+    container_name: application_feedback-db_container
+    image: mongo:8
+    ports:
+      - '27017:27017'
+
+  config-server:
+    restart: always
+    container_name: application-centralized-config-server
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: centralized_config_server/target/centralized_config_server-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/centralized-config-server:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloud
+      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_SEARCH_LOCATIONS: file:///config/{application}/{profile}
+      LOKI: ${LOKI_PATH}
+    volumes:
+      - './config/cloud:/config'
+    ports:
+      - '8888:8888'
+  eureka-server:
+    container_name: application_eureka-server_container
+    restart: always
+#    depends_on:
+#      config-server:
+#        condition: service_healthy
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: eureka_server/target/eureka_server-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/eureka-server:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloudconfig
+      LOKI: ${LOKI_PATH}
+    ports:
+      - '8761:8761'
+  admin-server:
+    container_name: application_admin-server_container
+    restart: always
+#    depends_on:
+#      eureka-server:
+#        condition: service_healthy
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: admin_server/target/admin_server-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/admin-server:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloudconfig
+      LOKI: ${LOKI_PATH}
+    ports:
+      - '8086:8086'
+  catalogue-service:
+    container_name: application_catalogue-server_container
+    restart: always
+#    depends_on:
+#      admin-server:
+#        condition: service_healthy
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: catalogue_service/target/catalogue_service-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/catalogue-service:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloudconfig
+      LOKI: ${LOKI_PATH}
+  feedback-service:
+    container_name: application_feedback-service_container
+    restart: always
+#    depends_on:
+#      admin-server:
+#        condition: service_healthy
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: feedback_service/target/feedback_service-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/feedback-service:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloudconfig
+      LOKI: ${LOKI_PATH}
+  customer-app:
+    restart: always
+    container_name: application_customer-app_container
+#    depends_on:
+#      feedback-service:
+#        condition: service_healthy
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: customer_app/target/customer_app-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/customer-app:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloudconfig
+      LOKI: ${LOKI_PATH}
+  manager-app:
+    restart: always
+    container_name: application_manager-app_container
+#    depends_on:
+#      catalogue-service:
+#        condition: service_healthy
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: manager_app/target/manager_app-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/manager-app:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloudconfig
+      LOKI: ${LOKI_PATH}
+  api-gateway:
+    restart: always
+    container_name: application_api-gateway-server_container
+#    depends_on:
+#      config-server:
+#        condition: service_healthy
+    build:
+      dockerfile: ${DOCKER_FILE}
+      args:
+        JAR_FILE: api_gateway/target/api_gateway-0.0.1-SNAPSHOT-exec.jar
+      tags:
+        - localhost:5000/application/api-gateway:0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: cloudconfig
+      LOKI: ${LOKI_PATH}
+    ports:
+      - '8087:8087'

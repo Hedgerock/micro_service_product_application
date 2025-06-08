@@ -94,9 +94,9 @@ class ProductControllerTest {
         //when
         var result = this.productController.updateCurrentProduct(PRODUCT_ID, UPDATE_PAYLOAD, redirectAttributes);
         //then
-        assertEquals("redirect:/catalogue/products/list", result);
+        assertEquals("redirect:/catalogue/products/list/1", result);
         assertEquals(
-                "%s has been successfully updated".formatted(PRODUCT.title()),
+                "Current product has successfully updated",
                 redirectAttributes.getFlashAttributes().get("status"));
 
         Mockito.verify(this.productRestClient).updateProduct(PRODUCT_ID, UPDATE_PAYLOAD);

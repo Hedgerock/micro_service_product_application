@@ -7,4 +7,4 @@ spring:
     import: 'optional:configserver:'
   cloud:
     config:
-      uri: http://hedgerock:12345@localhost:8888
+      uri: http://hedgerock:12345@192.168.0.105:8888

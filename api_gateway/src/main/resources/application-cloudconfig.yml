@@ -1,8 +1,9 @@
 server:
-  port: 8761
+  forward-headers-strategy: framework
+  port: 8087
 spring:
   application:
-    name: application-eureka-server
+    name: application-gateway-service
   config:
     import: 'optional:configserver:'
   cloud:

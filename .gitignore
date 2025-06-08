@@ -6,6 +6,7 @@ feedback_service/target
 customer_app/target
 eureka_server/target
 centralized_config_server/target
+api_gateway/target
 
 customer_app.iml
 demo.iml
